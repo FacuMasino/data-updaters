@@ -3,7 +3,7 @@ Cron jobs actualizando la data de compara tasas.
 
 ## ¿Como funciona?
 
-Los distintos scripts se ejecutan cada 3 horas y buscan el rendimiento a distintas fuentes de informacion.
+Los distintos scripts se ejecutan cada 3 horas usando [cloudflare workers](https://workers.cloudflare.com/) y buscan el rendimiento a distintas fuentes de informacion.
 
 - [x] Camara Argentina de FCI
 - [x] Api de yields de Buenbit
