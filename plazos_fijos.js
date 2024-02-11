@@ -15,8 +15,8 @@ async function handleRequest(request) {
         const data = await response.json();
 
         for (const fund of data) {
-            const tea = (Math.pow(1 + fund.tnaClientes / 12, 12) - 1);
-            const dailyRate = (Math.pow(1 + tea, 1 / 365) - 1) * 100;
+            const tem = (Math.pow(1 + fund.tnaClientes / 12, 1) - 1);
+            const dailyRate = (Math.pow(1 + tem, 1 / 30) - 1) * 100;
             const normalizedEntityName = fund.entidad.trim().toUpperCase();
             const fundInfo = plazosFijos.find(f => f.entidad.trim().toUpperCase() === normalizedEntityName);
 
@@ -39,7 +39,7 @@ async function updateFundRate(id, name, rate) {
     const updatedName = name.toUpperCase().replace('NUARS', 'Buenbit');
     console.log(`Updating ${name} (ID: ${id}) to ${rate}`);
     const supabaseUrl = `https://thklpacfwtrtuynqlnah.supabase.co/rest/v1/tasas-fci?id=eq.${id}`;
-    const apikey = SUPABASE_API_KEY;
+    const apikey = SUPABASE_API_KEY; // Accede a la variable de entorno SUPABASE_API_KEY
     const data = { tasa_diaria: rate };
 
     const response = await fetch(supabaseUrl, {
