@@ -1,11 +1,58 @@
 const plazosFijos = [
     {
-        "entidad" : "BANCO DE LA NACION ARGENTINA",
-        "supabaseId" : 29
+        "entidad": "BANCO DE LA NACION ARGENTINA",
+        "nombre": "Banco Nacion",
+        "supabaseId": 29
     },
     {
-        "entidad" : "BANCO SANTANDER ARGENTINA S.A.",
-        "supabaseId" : 30
+        "entidad": "BANCO SANTANDER ARGENTINA S.A.",
+        "nombre": "Santander",
+        "supabaseId": 30
+    },
+    {
+        "entidad": "BANCO DE GALICIA Y BUENOS AIRES S.A.U.",
+        "nombre": "Galicia",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+        "nombre": "Banco Provincia",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO BBVA ARGENTINA S.A.",
+        "nombre": "BBVA",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO MACRO S.A.",
+        "nombre": "Macro",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "HSBC BANK ARGENTINA S.A.",
+        "nombre": "HSBC",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO CREDICOOP COOPERATIVO LIMITADO",
+        "nombre": "Credicoop",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "INDUSTRIAL AND COMMERCIAL BANK OF CHINA (ARGENTINA) S.A.U.",
+        "nombre": "ICBC",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO COMAFI SOCIEDAD ANONIMA",
+        "nombre": "Comafi",
+        "supabaseId": 0
+    },
+    {
+        "entidad": "BANCO HIPOTECARIO S.A.",
+        "nombre": "Hipotecario",
+        "supabaseId": 0
     }
 ];
 
@@ -15,14 +62,15 @@ async function handleRequest(request) {
         const data = await response.json();
 
         for (const fund of data) {
-            const tem = (Math.pow(1 + fund.tnaClientes / 12, 1) - 1);
-            const dailyRate = (Math.pow(1 + tem, 1 / 30) - 1) * 100;
             const normalizedEntityName = fund.entidad.trim().toUpperCase();
             const fundInfo = plazosFijos.find(f => f.entidad.trim().toUpperCase() === normalizedEntityName);
 
             if (fundInfo) {
+                const tem = (Math.pow(1 + fund.tnaClientes / 12, 1) - 1);
+                const dailyRate = (Math.pow(1 + tem, 1 / 30) - 1) * 100;
                 const fundId = fundInfo.supabaseId;
-                await updateFundRate(fundId, fund.entidad, dailyRate);
+                const fundName = fundInfo.nombre;
+                await updateFundRate(fundId, fundName, dailyRate);
             } else {
                 console.log(`Entidad no encontrada en plazosFijos: ${fund.entidad}`);
             }
